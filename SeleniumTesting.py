@@ -464,10 +464,14 @@ new_row12 = {
 }
 df12 = pandas.DataFrame([new_row12])
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def renklendirme(val):
+    color = 'red' if val < 0 else 'green'
+    return 'color: {}'.format(color)
 
-# DataFrame'leri birleştir
-df = pandas.concat([df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12], ignore_index=True)
-
+dataframes = [df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12]
+tüm_datalar = pandas.concat(dataframes)
+tüm_datalar.reset_index(drop=True,inplace=True)
+tüm_datalar_styed = tüm_datalar.style.applymap(renklendirme, subset=["Yüzdelik Kar Oranı","Toplam Kar"])
 #OLŞACAK DOSYAIN ADINI BELİRLEME
 while True: 
     DosyaAdı = input("OLUŞACAK DOSYAININ ADINI BELİRLE: ")
@@ -477,7 +481,7 @@ while True:
         break
 
 # Excel dosyasına yaz
-df.to_excel("D:/Düzenli Masaüstü Remote/Excel & Borsa.py/ciktilar/{}.xlsx".format(DosyaAdı), index=False)
+tüm_datalar_styed.to_excel("D:/Düzenli Masaüstü Remote/Excel & Borsa.py/ciktilar/{}.xlsx".format(DosyaAdı), index=False)
 
 print("OLUŞAN DOSYAYI BU ADRESTEN BULABİLİRSİN: D:/Düzenli Masaüstü Remote/Excel & Borsa.py/ciktilar/{}.xlsx".format(DosyaAdı))
 
