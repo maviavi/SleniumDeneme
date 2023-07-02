@@ -1,18 +1,18 @@
-#AKSA HİSSESİNİN FİYATI
+#X HİSSESİNİN FİYATI
 #driver.get("")
 #driver.implicitly_wait(20)
-#bimasfiyat = driver.find_element(By.XPATH, '').text
-#bimasfiyat = bimasfiyat.replace(",",".")
+#Xfiyat = driver.find_element(By.XPATH, '').text
+#Xfiyat = Xfiyat.replace(",",".")
 
-#1   HİSSESİ
-#new_row = {
-#    "Hisse": "",
+#Y X  HİSSESİ
+#new_rowY = {
+#    "Hisse": "X",
 #    "Hisse sayısı" : ,
 #    "Alış Fiyatı(ort.)": ,
 #    "Güncel satış fiyatı": ,
 #    "Toplam Kar": (float() - ) * 
 #}
-#df1 = pandas.DataFrame([new_row])
+#dfY = pandas.DataFrame([new_rowY])
 
 import openpyxl 
 import pandas
@@ -21,218 +21,88 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 
-maddeler = ["Hisse","Hisse sayısı", "Alış Fiyatı(ort.)","Güncel satış fiyatı", "Toplam Kar","Güncel Toplam Fiyat","Yüzdelik Kar Oranı"]
+maddeler = ["Hisse", "Hisse sayısı", "Alış Fiyatı(ort.)", "Güncel satış fiyatı", "Toplam Kar", "Güncel Toplam Fiyat", "Yüzdelik Kar Oranı"]
 #********************************************************************************************************************************************
 #BAŞLANGIÇTA SORULMASI GEREKEN SORULAR
 
+def get_user_int_input(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            break
+        except ValueError:
+            print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
+    return value
+#FONKSİYONLARLA TEKRARLI DÖNGÜLERDEN KURTUL(WHILE TRUE)
+def get_user_float_input(fltprompt):
+    while True:
+        try:
+            fltvalue = (input(fltprompt)).replace(",",".")
+            fltvalue = float(fltvalue)
+            break
+        except ValueError:
+            print("GEÇERSİZ GİRİŞ! SAYISAL BİR DEĞER GİR: ")
+    return fltvalue
+
 #1 FROTO BİLGİ ÇEKME
-while True:
-    try:
-        froto_sayısı = int(input("Kaç FROTO hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        froto_user_input = input("FROTO ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        froto_user_input = froto_user_input.replace(",",".")
-        froto_alış_ort = float(froto_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+froto_sayısı = get_user_int_input("kaç FROTO hissen var? ")
+froto_alış_ort = get_user_float_input("FROTO ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #2 BİMAS BİLGİ ÇEKME
-while True:
-    try:
-        bimas_sayısı = int(input("Kaç BİMAS hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        bimas_user_input = input("BİMAS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        bimas_user_input = bimas_user_input.replace(",",".")
-        bimas_alış_ort = float(bimas_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+bimas_sayısı = get_user_int_input("Kaç BİMAS hissen var? ")
+bimas_alış_ort = get_user_float_input("BİMAS ALIŞ FİYATI ORTALAMAN KAÇ? ")
 
 #3 TUPRS BİLGİ ÇEKME
-while True:
-    try:
-        tuprs_sayısı = int(input("Kaç TUPRS hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")       
-while True:
-    try:
-        tuprs_user_input = input("TUPRS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        tuprs_user_input = tuprs_user_input.replace(",",".")
-        tuprs_alış_ort = float(tuprs_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+tuprs_sayısı = get_user_int_input("Kaç TUPRS hissen var? ")
+tuprs_alış_ort = get_user_float_input("TUPRS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #4 AKSA BİLGİ ÇEKME
-while True:
-    try:
-        aksa_sayısı = int(input("Kaç AKSA hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        aksa_user_input = input("AKSA ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        aksa_user_input = aksa_user_input.replace(",",".")
-        aksa_alış_ort = float(aksa_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+aksa_sayısı = get_user_int_input("Kaç AKSA hissen var? ")
+aksa_alış_ort = get_user_float_input("AKSA ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #5 KORDS BİLGİ ÇEKME
-while True:
-    try:
-        kords_sayısı = int(input("Kaç KORDS hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        kords_user_input = input("KORDS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        kords_user_input = kords_user_input.replace(",",".")
-        kords_alış_ort = float(kords_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+kords_sayısı = get_user_int_input("Kaç KORDS hissen var? ")
+kords_alış_ort = get_user_float_input("KORDS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #6 EREGL BİLGİ ÇEKME
-while True:
-    try:
-        eregl_sayısı = int(input("Kaç EREGL hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        eregl_user_input = input("EREGL ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        eregl_user_input = eregl_user_input.replace(",",".")
-        eregl_alış_ort = float(eregl_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+eregl_sayısı = get_user_int_input("Kaç EREGL hissen var? ")
+eregl_alış_ort = get_user_float_input("EREGL ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #7 ASTOR BİLGİ ÇEKME
-while True:
-    try:
-        astor_sayısı = int(input("Kaç ASTOR hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        astor_user_input = input("ASTOR ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        astor_user_input = astor_user_input.replace(",",".")
-        astor_alış_ort = float(astor_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+astor_sayısı = get_user_int_input("Kaç ASTOR hissen var? ")
+astor_alış_ort = get_user_float_input("ASTOR ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #8 BİOEN BİLGİ ÇEKME
-while True:
-    try:
-        bioen_sayısı = int(input("Kaç BİOEN hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        bioen_user_input = input("BİOEN ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        bioen_user_input = bioen_user_input.replace(",",".")
-        bioen_alış_ort = float(bioen_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+bioen_sayısı = get_user_int_input("Kaç BİOEN hissen var? ")
+bioen_alış_ort = get_user_float_input("BİOEN ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #9 SOKE BİLGİ ÇEKME
-while True:
-    try:
-        soke_sayısı = int(input("Kaç SOKE hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        soke_user_input = input("SOKE ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        soke_user_input = soke_user_input.replace(",",".")
-        soke_alış_ort = float(soke_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE: ")
+soke_sayısı = get_user_int_input("Kaç SOKE hissen var? ")
+soke_alış_ort = get_user_float_input("SOKE ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #10 VESBE BİLGİ ÇEKME
-while True:
-    try:
-        vesbe_sayısı = int(input("Kaç VESBE hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-while True:
-    try:
-        vesbe_user_input = input("VESBE ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        vesbe_user_input = vesbe_user_input.replace(",",".")
-        vesbe_alış_ort = float(vesbe_user_input)
-        break
-    except ValueError:
-        print("METİNSEL DEĞER GİRİLEMEZ! TEKRAR DENE:")
+vesbe_sayısı = get_user_int_input("Kaç VESBE hissen var? ")
+vesbe_alış_ort = get_user_float_input("VESBE ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #11 ALFAS BİLGİ ÇEKME
-while True: 
-    try:
-        alfas_sayısı = int(input("Kaç ALFAS hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-        
-while True: 
-    try:
-        alfas_user_input = input("ALFAS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        alfas_user_input = alfas_user_input.replace(",",".")
-        alfas_alış_ort = float(alfas_user_input)
-        break
-    except ValueError:
-        print("ALFAS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
+alfas_sayısı = get_user_int_input("Kaç ALFAS hissen var? ")
+alfas_alış_ort = get_user_float_input("ALFAS ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 
 #12  BİLGİ ÇEKME
-while True: 
-    try:
-        toasosayısı = int(input("Kaç TOASO hissen var? "))
-        break
-    except ValueError:
-        print("ONDALIKLI SAYI VEYA METİN GİREMEZSİN! TEKRAR DENE: ")
-        
-while True: 
-    try:
-        toaso_user_input = input("TOASO ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-        toaso_user_input = toaso_user_input.replace(",",".")
-        toaso_alış_ort = float(toaso_user_input)
-        break
-    except ValueError:
-        print("TOASO ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
-
+toasosayısı = get_user_int_input("Kaç TOASO hissen var? ")
+toaso_alış_ort = get_user_float_input("TOASO ALIŞ FİYATI ORTALAMAN KAÇ TL? ")
 #********************************************************************************************************************************************
-#--------------------------------------------------------------------------------------------------------------------------------------------
-df = pandas.DataFrame(columns=maddeler)
-df
-#--------------------------------------------------------------------------------------------------------------------------------------------
+
 #+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+----+-+-+-+-+-+-+-+++-+--+-+-+-+-+-+--+-+-+-+-+-+++-+-++-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++
 edge_options = Options()
-edge_options.add_argument("--incognito")
-edge_options.add_argument("--headless")  # Headless modu etkinleştirdim
+edge_options.add_argument("--incognito") # gizli sekme
+edge_options.add_argument("--headless")  # Tarayıcının görünmez modunu etkinleştirme
 
 driver = webdriver.Edge(options=edge_options)
 
 driver.delete_all_cookies()
 #+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+----+-+-+-+-+-+-+-+++-+--+-+-+-+-+-+--+-+-+-+-+-+++-+-++-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++
+
 #############################################################################################################################################
 #1 FROTO HİSSESİNİN FİYATI
 driver.get("https://www.foreks.com/sembol-detay/H2024/froto/ford-otosan")
@@ -306,8 +176,9 @@ driver.implicitly_wait(20)
 toasofiyat = driver.find_element(By.XPATH, '//*[@id="__layout"]/div/div[2]/div[1]/div[2]/div[1]/div/div/div[2]/strong').text
 toasofiyat = toasofiyat.replace(",",".")
 #############################################################################################################################################
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#BURADA KODU DÖNGÜYE SOToplam KarAK FİYATLARI GİRMESİNİ İSTİYORUZ(ELLE GİRSEM DAHA İYİ OLABİLİR BELKİ)
+#MADDELERE DEĞERLERİ GİR
 #1 FROTO HİSSESİ
 froto_Kar = float(frotofiyat) - froto_alış_ort 
 new_row1 = {
@@ -315,8 +186,8 @@ new_row1 = {
     "Hisse sayısı" : froto_sayısı,
     "Alış Fiyatı(ort.)": froto_alış_ort,
     "Güncel satış fiyatı": frotofiyat,
-    "Toplam Kar": (float(frotofiyat) - froto_alış_ort) * froto_sayısı,
     "Güncel Toplam Fiyat": froto_sayısı * float(frotofiyat),
+    "Toplam Kar": (float(frotofiyat) - froto_alış_ort) * froto_sayısı,
     "Yüzdelik Kar Oranı" : (froto_Kar/float(frotofiyat)) * 100
 }
 df1 = pandas.DataFrame([new_row1])
@@ -328,8 +199,8 @@ new_row2 = {
     "Hisse sayısı" : bimas_sayısı,
     "Alış Fiyatı(ort.)": bimas_alış_ort,
     "Güncel satış fiyatı": bimasfiyat,
-    "Toplam Kar": (float(bimasfiyat) - bimas_alış_ort)*bimas_sayısı,
     "Güncel Toplam Fiyat": bimas_sayısı * float(bimasfiyat),
+    "Toplam Kar": (float(bimasfiyat) - bimas_alış_ort)*bimas_sayısı,
     "Yüzdelik Kar Oranı" : (bimas_Kar/float(bimasfiyat)) * 100
 }
 df2 = pandas.DataFrame([new_row2])
@@ -341,8 +212,8 @@ new_row3 = {
     "Hisse sayısı" : tuprs_sayısı,
     "Alış Fiyatı(ort.)": tuprs_alış_ort,
     "Güncel satış fiyatı": tuprsfiyat,
-    "Toplam Kar": (float(tuprsfiyat) - tuprs_alış_ort ) * tuprs_sayısı,
     "Güncel Toplam Fiyat": tuprs_sayısı * float(tuprsfiyat),
+    "Toplam Kar": (float(tuprsfiyat) - tuprs_alış_ort ) * tuprs_sayısı,
     "Yüzdelik Kar Oranı" : (tuprs_Kar/float(tuprsfiyat)) * 100
 }
 df3 = pandas.DataFrame([new_row3])
@@ -354,8 +225,8 @@ new_row4 = {
     "Hisse sayısı" : aksa_sayısı,
     "Alış Fiyatı(ort.)": aksa_alış_ort,
     "Güncel satış fiyatı": aksafiyat,
-    "Toplam Kar": (float(aksafiyat) - aksa_alış_ort) * aksa_sayısı,
     "Güncel Toplam Fiyat": aksa_sayısı * float(aksafiyat),
+    "Toplam Kar": (float(aksafiyat) - aksa_alış_ort) * aksa_sayısı,
     "Yüzdelik Kar Oranı" : (aksa_Kar/float(aksafiyat)) * 100
 }
 df4 = pandas.DataFrame([new_row4])
@@ -367,8 +238,8 @@ new_row5 = {
     "Hisse sayısı" : kords_sayısı,
     "Alış Fiyatı(ort.)": kords_alış_ort,
     "Güncel satış fiyatı": kordsfiyat,
-    "Toplam Kar": (float(kordsfiyat) - kords_alış_ort) * kords_sayısı,
     "Güncel Toplam Fiyat": kords_sayısı * float(kordsfiyat),
+    "Toplam Kar": (float(kordsfiyat) - kords_alış_ort) * kords_sayısı,
     "Yüzdelik Kar Oranı" : (kords_Kar/float(kordsfiyat)) * 100
 }
 df5 = pandas.DataFrame([new_row5])
@@ -380,8 +251,8 @@ new_row6 = {
     "Hisse sayısı" : eregl_sayısı ,
     "Alış Fiyatı(ort.)": eregl_alış_ort ,
     "Güncel satış fiyatı": ereglfiyat,
-    "Toplam Kar": (float(ereglfiyat) - eregl_alış_ort ) * eregl_sayısı,
     "Güncel Toplam Fiyat": eregl_sayısı * float(ereglfiyat),
+    "Toplam Kar": (float(ereglfiyat) - eregl_alış_ort ) * eregl_sayısı,
     "Yüzdelik Kar Oranı" : (eregl_Kar/float(ereglfiyat)) * 100
 }
 df6 = pandas.DataFrame([new_row6])
@@ -393,8 +264,8 @@ new_row7 = {
     "Hisse sayısı" : astor_sayısı ,
     "Alış Fiyatı(ort.)": astor_alış_ort,
     "Güncel satış fiyatı": astorfiyat,
-    "Toplam Kar": (float(astorfiyat) - astor_alış_ort) * astor_sayısı,
     "Güncel Toplam Fiyat": astor_sayısı * float(astorfiyat),
+    "Toplam Kar": (float(astorfiyat) - astor_alış_ort) * astor_sayısı,
     "Yüzdelik Kar Oranı" : (astor_Kar/float(astorfiyat)) * 100
 }
 df7 = pandas.DataFrame([new_row7])
@@ -406,8 +277,8 @@ new_row8 = {
     "Hisse sayısı" : bioen_sayısı,
     "Alış Fiyatı(ort.)": bioen_alış_ort,
     "Güncel satış fiyatı": bioenfiyat,
-    "Toplam Kar": (float(bioenfiyat) - bioen_alış_ort ) * bioen_sayısı,
     "Güncel Toplam Fiyat": bioen_sayısı * float(bioenfiyat),
+    "Toplam Kar": (float(bioenfiyat) - bioen_alış_ort ) * bioen_sayısı,
     "Yüzdelik Kar Oranı" : (bioen_Kar/float(bioenfiyat)) * 100
 }
 df8 = pandas.DataFrame([new_row8]) 
@@ -419,8 +290,8 @@ new_row9 = {
     "Hisse sayısı" : soke_sayısı,
     "Alış Fiyatı(ort.)": soke_alış_ort ,
     "Güncel satış fiyatı": sokefiyat,
-    "Toplam Kar": (float(sokefiyat) - soke_alış_ort ) * soke_sayısı,
     "Güncel Toplam Fiyat": soke_sayısı * float(sokefiyat),
+    "Toplam Kar": (float(sokefiyat) - soke_alış_ort ) * soke_sayısı,
     "Yüzdelik Kar Oranı" : (soke_Kar/float(sokefiyat)) * 100
 }
 df9 = pandas.DataFrame([new_row9])
@@ -432,8 +303,8 @@ new_row10 = {
     "Hisse sayısı" : vesbe_sayısı ,
     "Alış Fiyatı(ort.)": vesbe_alış_ort,
     "Güncel satış fiyatı": vesbefiyat,
-    "Toplam Kar": (float(vesbefiyat) - vesbe_alış_ort) * vesbe_sayısı,
     "Güncel Toplam Fiyat": vesbe_sayısı * float(vesbefiyat),
+    "Toplam Kar": (float(vesbefiyat) - vesbe_alış_ort) * vesbe_sayısı,
     "Yüzdelik Kar Oranı" : (vesbe_Kar/float(vesbefiyat)) * 100
 }
 df10 = pandas.DataFrame([new_row10])
@@ -445,8 +316,8 @@ new_row11 = {
     "Hisse sayısı" : alfas_sayısı,
     "Alış Fiyatı(ort.)": alfas_alış_ort,
     "Güncel satış fiyatı": alfasfiyat,
-    "Toplam Kar": (float(alfasfiyat) - alfas_alış_ort) * alfas_sayısı,
     "Güncel Toplam Fiyat": alfas_sayısı * float(alfasfiyat),
+    "Toplam Kar": (float(alfasfiyat) - alfas_alış_ort) * alfas_sayısı,
     "Yüzdelik Kar Oranı" : (alfas_Kar/float(alfasfiyat)) * 100
 }
 df11 = pandas.DataFrame([new_row11])
@@ -458,17 +329,36 @@ new_row12 = {
     "Hisse sayısı" : toasosayısı ,
     "Alış Fiyatı(ort.)": toaso_alış_ort,
     "Güncel satış fiyatı": toasofiyat,
-    "Toplam Kar": (float(toasofiyat) - toaso_alış_ort) * toasosayısı,
     "Güncel Toplam Fiyat": toasosayısı * float(toasofiyat),
+    "Toplam Kar": (float(toasofiyat) - toaso_alış_ort) * toasosayısı,
     "Yüzdelik Kar Oranı" : (toaso_Kar/float(toasofiyat)) * 100
 }
 df12 = pandas.DataFrame([new_row12])
+
+#KÜÇÜK TOPLAMA İŞLEMŞLERİ
+rows = [new_row1,new_row2,new_row3,new_row4,new_row5,new_row6,new_row7,new_row8,new_row9,new_row10,new_row11,new_row12]
+toplamkar = 0
+toplamgüncelfiyat = 0
+for new_row in rows:
+    toplamkar += new_row["Toplam Kar"]
+    toplamgüncelfiyat += new_row["Güncel Toplam Fiyat"]
+
+#TOPLAMLARI YAZDIR[EN ALTTA OLMA SEBEBİ }361{ ]
+new_row_toplam = {
+    "Hisse" : "Toplamlar >> >> >> ",
+    "Toplam Kar" : toplamkar,
+    "Yüzdelik Kar Oranı" : ( toplamkar / toplamgüncelfiyat ) * 100,
+    "Güncel Toplam Fiyat" :toplamgüncelfiyat
+}
+dftoplam = pandas.DataFrame([new_row_toplam])
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 def renklendirme(val):
     color = 'red' if val < 0 else 'green'
     return 'color: {}'.format(color)
 
-dataframes = [df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12]
+dataframes = [df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12,dftoplam]
 tüm_datalar = pandas.concat(dataframes)
 tüm_datalar.reset_index(drop=True,inplace=True)
 tüm_datalar_styed = tüm_datalar.style.applymap(renklendirme, subset=["Yüzdelik Kar Oranı","Toplam Kar"])
