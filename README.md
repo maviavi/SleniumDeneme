@@ -1,3 +1,2 @@
-22.06.2023 - 30.06.2023 Tarihi arasında yapışığ olduğum ilk selenyum + openpyxl + pandas denememem
-3 ay sonra 17 yaşında olucam :/
-üç günde bitti diğer günlerde küçük güncellemeler aldı 
+22.06.2023 - 30.06.2023 Arasında yapmış olduğum ilk veri analizi ( selenyum + openpyxl + pandas ) prijesi.
+üç günde ana bölüm bitti diğer günlerde küçük güncellemelere geliştirildi
